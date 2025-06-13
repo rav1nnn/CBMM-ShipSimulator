@@ -19,10 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CBMMShipSimulator"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,18 +26,19 @@
             android:theme="@style/Theme.CBMMShipSimulator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <!-- Serviço de rastreamento de navios -->
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_API_KEY" /> <!-- Serviço de rastreamento de navios -->
         <service
             android:name=".service.ShipTrackingService"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="location" />
-            
-        <!-- Receiver para iniciar o serviço após o boot -->
+            android:foregroundServiceType="location" /> <!-- Receiver para iniciar o serviço após o boot -->
         <receiver
             android:name=".receiver.BootCompletedReceiver"
             android:enabled="true"
@@ -53,4 +50,5 @@
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>

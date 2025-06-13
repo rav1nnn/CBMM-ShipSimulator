@@ -16,6 +16,9 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
+plugins {
+    alias(libs.plugins.kotlin.compose) apply false
+}
 
 allprojects {
     repositories {
