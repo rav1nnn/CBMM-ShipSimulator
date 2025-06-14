@@ -52,7 +52,7 @@ class ShipTrackingService : Service() {
             while (true) {
                 try {
                     // Busca todos os navios ativos
-                    shipRepository.getActiveShips().collectLatest { result ->
+                    shipRepository.getShipsByStatus(com.cbmm.shipsimulator.data.model.ShipStatus.SAILING).collectLatest { result ->
                         when (result) {
                             is com.cbmm.shipsimulator.util.NetworkResult.Success -> {
                                 // Salva a rota de cada navio ativo
@@ -99,7 +99,7 @@ class ShipTrackingService : Service() {
                 description = "Tracks ship positions in the background"
             }
             
-            val notificationManager = getSystemService(NotificationManager::class)
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 

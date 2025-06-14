@@ -1,6 +1,7 @@
 package com.cbmm.shipsimulator.data.api
 
 import com.cbmm.shipsimulator.data.model.Ship
+import com.cbmm.shipsimulator.data.model.Location
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

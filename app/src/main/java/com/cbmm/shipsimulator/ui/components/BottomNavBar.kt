@@ -17,6 +17,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
@@ -74,8 +75,8 @@ fun BottomNavBar(navController: NavController) {
 sealed class NavItem(
     val screen: Screen,
     val titleResId: Int,
-    val selectedIcon: Any? = null,
-    val unselectedIcon: Any? = null,
+    val selectedIcon: ImageVector? = null,
+    val unselectedIcon: ImageVector? = null,
     val iconResId: Int? = null
 ) {
     object Map : NavItem(
@@ -104,7 +105,7 @@ sealed class NavItem(
         titleResId = R.string.history,
         selectedIcon = Icons.Filled.History,
         unselectedIcon = Icons.Outlined.History
-    ),
+    )
     
     object Settings : NavItem(
         screen = Screen.Settings,

@@ -1,48 +1,43 @@
 package com.cbmm.shipsimulator.sync
 
 import android.content.Context
-import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.cbmm.shipsimulator.worker.ShipsSyncWorker
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ShipsSyncManager @Inject constructor(
-    private val context: Context,
-    private val workerFactory: HiltWorkerFactory
+    @ApplicationContext private val context: Context
 ) {
-    
-    fun scheduleSync(intervalHours: Long = 1) {
+    private val workManager = WorkManager.getInstance(context)
+
+    fun startPeriodicSync(intervalHours: Int = 1) {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
             .build()
 
-        val syncRequest = PeriodicWorkRequestBuilder<ShipsSyncWorker>(
-            repeatInterval = intervalHours,
-            repeatIntervalTimeUnit = TimeUnit.HOURS,
-            flexTimeInterval = 15,
-            flexTimeIntervalUnit = TimeUnit.MINUTES
+        val syncWorkRequest = PeriodicWorkRequestBuilder<ShipsSyncWorker>(
+            intervalHours.toLong(),
+            TimeUnit.HOURS
         )
             .setConstraints(constraints)
-            .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
-                TimeUnit.MILLISECONDS
-            )
             .build()
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            ShipsSyncWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            syncRequest
+        workManager.enqueueUniquePeriodicWork(
+            "ships_sync_work",
+            ExistingPeriodicWorkPolicy.UPDATE,
+            syncWorkRequest
         )
     }
 
-    fun cancelSync() {
-        WorkManager.getInstance(context)
-            .cancelUniqueWork(ShipsSyncWorker.WORK_NAME)
+    fun stopPeriodicSync() {
+        workManager.cancelUniqueWork("ships_sync_work")
     }
 }

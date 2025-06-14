@@ -16,9 +16,9 @@
     <path
         android:fillColor="@color/ship_tanker"
         android:pathData="M7,13h10V8H7V13z" />
-    <circle
+    <path
         android:fillColor="@color/ship_tanker"
-        android:cx="12"
-        android:cy="10.5"
-        android:r="2" />
+        android:pathData="M 14,10.5
+            a 2,2 0 1,0 -4,0
+            a 2,2 0 1,0 4,0" />
 </vector>

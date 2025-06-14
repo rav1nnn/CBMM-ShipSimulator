@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.*
+import com.google.gson.annotations.SerializedName
 
 @Entity(
     tableName = "ship_routes",
@@ -20,11 +21,31 @@ import java.util.*
 )
 data class ShipRoute(
     @PrimaryKey
+    @SerializedName("id")
     val id: String = UUID.randomUUID().toString(),
+    @SerializedName("shipId")
     val shipId: String,
-    val latitude: Double,
-    val longitude: Double,
-    val timestamp: Long = System.currentTimeMillis(),
-    val speed: Double,
-    val heading: Double
+    @SerializedName("startLocation")
+    val startLocation: Location,
+    @SerializedName("endLocation")
+    val endLocation: Location,
+    @SerializedName("waypoints")
+    val waypoints: List<Location>,
+    @SerializedName("startTime")
+    val startTime: Long = System.currentTimeMillis(),
+    @SerializedName("endTime")
+    val endTime: Long = System.currentTimeMillis(),
+    @SerializedName("status")
+    val status: ShipRouteStatus
 )
+
+enum class ShipRouteStatus {
+    @SerializedName("PLANNED")
+    PLANNED,
+    @SerializedName("IN_PROGRESS")
+    IN_PROGRESS,
+    @SerializedName("COMPLETED")
+    COMPLETED,
+    @SerializedName("CANCELLED")
+    CANCELLED
+}

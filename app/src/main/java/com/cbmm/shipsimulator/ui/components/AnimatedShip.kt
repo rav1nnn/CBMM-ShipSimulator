@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -15,6 +16,20 @@ import com.cbmm.shipsimulator.data.model.Location
 import com.cbmm.shipsimulator.util.MapUtils
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
+
+// Conversor para animação de Location
+private object LocationVectorConverter : TwoWayConverter<Location, AnimationVector2D> {
+    override val convertToVector: (Location) -> AnimationVector2D = { location ->
+        AnimationVector2D(
+            location.latitude.toFloat(),
+            location.longitude.toFloat()
+        )
+    }
+    
+    override val convertFromVector: (AnimationVector2D) -> Location = { vector ->
+        Location(vector.v1.toDouble(), vector.v2.toDouble())
+    }
+}
 
 @Composable
 fun AnimatedShip(
@@ -30,9 +45,9 @@ fun AnimatedShip(
     var rotation by remember { mutableStateOf(heading) }
     
     // Anima a posição do navio
-    val animatedPosition by animateValueAsState(
+    val animatedPosition by animateValueAsState<Location, AnimationVector2D>(
         targetValue = currentPosition,
-        typeConverter = Location.VectorConverter,
+        typeConverter = LocationVectorConverter,
         animationSpec = tween(
             durationMillis = 1000, // 1 segundo para atualização suave
             easing = LinearEasing
@@ -87,8 +102,8 @@ fun AnimatedShip(
         contentDescription = "Ship",
         modifier = Modifier
             .offset(
-                x = with(density) { animatedPosition.x.dp.toPx() }.toDp(),
-                y = with(density) { animatedPosition.y.dp.toPx().toDp() }
+                x = (animatedPosition.latitude * 100).dp,
+                y = (animatedPosition.longitude * 100).dp
             )
             .graphicsLayer {
                 rotationZ = animatedRotation
@@ -100,23 +115,4 @@ fun AnimatedShip(
             }
             .then(if (isSelected) Modifier.shadow(4.dp) else Modifier)
     )
-}
-
-// Função de extensão para converter Float para Dp
-private fun Float.toDp(): Dp = (this / LocalDensity.current.density).dp
-
-// Classe utilitária para animação de Location
-object Location {
-    object VectorConverter : TwoWayConverter<Location, AnimationVector2D> {
-        override val convertToVector: (Location) -> AnimationVector2D = { location ->
-            AnimationVector2D(
-                location.latitude.toFloat(),
-                location.longitude.toFloat()
-            )
-        }
-        
-        override val convertFromVector: (AnimationVector2D) -> Location = { vector ->
-            Location(vector.v1.toDouble(), vector.v2.toDouble())
-        }
-    }
 }

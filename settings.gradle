@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CBMM Ship Simulator"
+rootProject.name = "CBMM-ShipSimulator"
 include ':app'
