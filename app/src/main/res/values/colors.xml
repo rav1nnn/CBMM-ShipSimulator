@@ -42,4 +42,21 @@
     <color name="container_loaded">#4CAF50</color>
     <color name="container_damaged">#F44336</color>
     <color name="container_reserved">#FFC107</color>
+    
+    <!-- Cores do Material Design 3 -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Cores adicionais do Material Design 3 -->
+    <color name="error">#FFB3261E</color>
+    <color name="error_container">#FFF9DEDC</color>
+    <color name="background">#FFFFFBFE</color>
+    <color name="surface">#FFFFFBFE</color>
+    <color name="surface_variant">#FFE7E0EC</color>
+    <color name="outline">#FF79747E</color>
 </resources>

@@ -21,7 +21,7 @@ interface ShipRepository {
     // Novos métodos com suporte a NetworkResult
     fun getAllShips(): Flow<NetworkResult<List<Ship>>>
     fun getShipByIdWithStatus(id: String): Flow<NetworkResult<Ship>>
-    fun getActiveShips(): Flow<NetworkResult<List<Ship>>>
+    fun getShipsByStatus(status: ShipStatus): Flow<NetworkResult<List<Ship>>>
     
     // Métodos para gerenciamento de rotas
     suspend fun saveShipRoute(route: ShipRoute)

@@ -1,15 +1,31 @@
 package com.cbmm.shipsimulator.data.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 
-/**
- * Representa uma localização geográfica com latitude e longitude.
- * Pode ser usada para representar a posição atual de um navio ou de um porto.
- */
 data class Location(
-    @PrimaryKey
-    val id: String = "",
-    val latitude: Double = 0.0,
-    val longitude: Double = 0.0
-)
+    @SerializedName("latitude")
+    val latitude: Double,
+    @SerializedName("longitude")
+    val longitude: Double,
+    @SerializedName("portId")
+    val portId: String? = null,
+    @SerializedName("portName")
+    val portName: String? = null
+) {
+    companion object {
+        private val gson = Gson()
+
+        fun fromString(json: String): Location {
+            return try {
+                gson.fromJson(json, Location::class.java) ?: Location(0.0, 0.0)
+            } catch (e: Exception) {
+                Location(0.0, 0.0)
+            }
+        }
+    }
+
+    override fun toString(): String {
+        return gson.toJson(this)
+    }
+} 

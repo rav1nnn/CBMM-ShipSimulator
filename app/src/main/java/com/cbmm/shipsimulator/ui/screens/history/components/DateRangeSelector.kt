@@ -1,5 +1,7 @@
 package com.cbmm.shipsimulator.ui.screens.history.components
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,9 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cbmm.shipsimulator.R
 import com.cbmm.shipsimulator.ui.theme.spacing
-import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.MaterialDialogState
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,13 +29,46 @@ fun DateRangeSelector(
     val startDateState = remember { mutableStateOf(startDate) }
     val endDateState = remember { mutableStateOf(endDate) }
     
-    val startDateDialogState = remember { MaterialDialogState() }
-    val endDateDialogState = remember { MaterialDialogState() }
-    
     // Atualiza as datas iniciais
     LaunchedEffect(startDate, endDate) {
         startDateState.value = startDate
         endDateState.value = endDate
+    }
+    
+    // Cria um DatePickerDialog para a data inicial
+    val startDatePicker = remember {
+        val calendar = Calendar.getInstance().apply { time = startDateState.value }
+        DatePickerDialog(
+            context,
+            { _: DatePicker, year: Int, month: Int, day: Int ->
+                val newDate = Calendar.getInstance().apply {
+                    set(year, month, day)
+                }.time
+                startDateState.value = newDate
+                onDateRangeSelected(newDate.time, endDateState.value.time)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+    }
+    
+    // Cria um DatePickerDialog para a data final
+    val endDatePicker = remember {
+        val calendar = Calendar.getInstance().apply { time = endDateState.value }
+        DatePickerDialog(
+            context,
+            { _: DatePicker, year: Int, month: Int, day: Int ->
+                val newDate = Calendar.getInstance().apply {
+                    set(year, month, day)
+                }.time
+                endDateState.value = newDate
+                onDateRangeSelected(startDateState.value.time, newDate.time)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
     }
     
     Row(
@@ -50,7 +82,7 @@ fun DateRangeSelector(
         DateSelectorButton(
             label = stringResource(R.string.start_date),
             date = startDateState.value,
-            onClick = { startDateDialogState.show() },
+            onClick = { startDatePicker.show() },
             modifier = Modifier.weight(1f)
         )
         
@@ -60,48 +92,8 @@ fun DateRangeSelector(
         DateSelectorButton(
             label = stringResource(R.string.end_date),
             date = endDateState.value,
-            onClick = { endDateDialogState.show() },
+            onClick = { endDatePicker.show() },
             modifier = Modifier.weight(1f)
-        )
-    }
-    
-    // Diálogo para selecionar data inicial
-    MaterialDialog(
-        dialogState = startDateDialogState,
-        buttons = {
-            positiveButton(text = stringResource(R.string.ok)) {
-                onDateRangeSelected(
-                    startDateState.value.time,
-                    endDateState.value.time
-                )
-            }
-            negativeButton(text = stringResource(R.string.cancel))
-        }
-    ) {
-        datepicker(
-            initialDate = startDateState.value,
-            title = stringResource(R.string.select_start_date),
-            onDateChange = { startDateState.value = it }
-        )
-    }
-    
-    // Diálogo para selecionar data final
-    MaterialDialog(
-        dialogState = endDateDialogState,
-        buttons = {
-            positiveButton(text = stringResource(R.string.ok)) {
-                onDateRangeSelected(
-                    startDateState.value.time,
-                    endDateState.value.time
-                )
-            }
-            negativeButton(text = stringResource(R.string.cancel))
-        }
-    ) {
-        datepicker(
-            initialDate = endDateState.value,
-            title = stringResource(R.string.select_end_date),
-            onDateChange = { endDateState.value = it }
         )
     }
 }

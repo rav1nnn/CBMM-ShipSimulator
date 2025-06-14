@@ -11,6 +11,7 @@
     <string name="history">History</string>
 
     <!-- Common -->
+    <string name="back">Back</string>
     <string name="loading">Loading…</string>
     <string name="error">Error</string>
     <string name="retry">Retry</string>
@@ -31,17 +32,22 @@
     <string name="ship_status_docked">Docked</string>
     <string name="ship_status_sailing">Sailing</string>
     <string name="ship_status_maintenance">Maintenance</string>
+    <string name="fleet_screen">Fleet Screen</string>
 
     <!-- Ports Screen -->
     <string name="ports_title">Ports</string>
-    <string name="port_capacity">Capacity: %d/%d</string>
+    <string name="port_capacity">Capacity: %1$d/%2$d</string>
     <string name="port_available">Available: %d</string>
+    <string name="port_available_docks">Available Docks</string>
+    <string name="ports_screen">Ports Screen</string>
+
+    <!-- Port capacity is defined above with two parameters -->
 
     <!-- Analytics Screen -->
     <string name="analytics_title">Analytics</string>
     <string name="ship_movements">Ship Movements</string>
-    <string name="port_utilization">Port Utilization</string>
     <string name="cargo_volume">Cargo Volume</string>
+    <string name="analytics_screen">Analytics Screen</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
@@ -49,6 +55,7 @@
     <string name="notifications">Notifications</string>
     <string name="language">Language</string>
     <string name="about">About</string>
+    <string name="settings_screen">Settings Screen</string>
 
     <!-- History Screen -->
     <string name="history_title">Route History</string>
@@ -89,7 +96,6 @@
     <string name="port_name">Name: %1$s</string>
     <string name="port_location">Location: %1$s</string>
     <string name="port_containers">Containers: %1$d</string>
-    <string name="port_capacity">Capacity: %1$d</string>
     <string name="port_utilization">Utilization: %1$s</string>
     <string name="port_actions">Actions</string>
     <string name="action_view_ships">View Ships</string>
@@ -118,4 +124,9 @@
     <string name="error_loading_data">Error loading data. Please try again.</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="server_error">Server error. Please try again later.</string>
+
+    <!-- Permissões -->
+    <string name="permission_required">Permissões Necessárias</string>
+    <string name="permission_explanation">Este aplicativo precisa de acesso à sua localização para funcionar corretamente. Por favor, conceda as permissões necessárias nas configurações.</string>
+    <string name="open_settings">Abrir Configurações</string>
 </resources>

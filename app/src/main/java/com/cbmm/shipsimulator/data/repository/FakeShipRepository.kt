@@ -12,6 +12,7 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
+import com.cbmm.shipsimulator.util.NetworkResult
 
 @Singleton
 class FakeShipRepository @Inject constructor() : ShipRepository {
@@ -238,5 +239,47 @@ class FakeShipRepository @Inject constructor() : ShipRepository {
             latitude = Math.toDegrees(newLat),
             longitude = Math.toDegrees(newLon)
         )
+    }
+
+    override fun getShipsByStatus(status: ShipStatus): Flow<NetworkResult<List<Ship>>> = flow {
+        emit(NetworkResult.Loading())
+        val filtered = ships.filter { it.status == status }
+        emit(NetworkResult.Success(filtered))
+    }
+
+    override fun getAllShips(): Flow<NetworkResult<List<Ship>>> = flow {
+        emit(NetworkResult.Loading())
+        emit(NetworkResult.Success(ships))
+    }
+
+    override fun getShipByIdWithStatus(id: String): Flow<NetworkResult<Ship>> = flow {
+        emit(NetworkResult.Loading())
+        val ship = ships.find { it.id == id }
+        if (ship != null) {
+            emit(NetworkResult.Success(ship))
+        } else {
+            emit(NetworkResult.Error("Navio não encontrado"))
+        }
+    }
+
+    // Métodos de rotas fictícios
+    override suspend fun saveShipRoute(route: com.cbmm.shipsimulator.data.model.ShipRoute) {
+        // Não faz nada no fake
+    }
+
+    override fun getShipRoutes(shipId: String): kotlinx.coroutines.flow.Flow<List<com.cbmm.shipsimulator.data.model.ShipRoute>> = flowOf(emptyList())
+
+    override fun getShipRoutesInTimeRange(
+        shipId: String,
+        startTime: java.util.Date,
+        endTime: java.util.Date
+    ): kotlinx.coroutines.flow.Flow<List<com.cbmm.shipsimulator.data.model.ShipRoute>> = flowOf(emptyList())
+
+    override suspend fun deleteOldRoutes(olderThan: java.util.Date) {
+        // Não faz nada no fake
+    }
+
+    override suspend fun deleteRoutesForShip(shipId: String) {
+        // Não faz nada no fake
     }
 }

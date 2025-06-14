@@ -153,7 +153,7 @@ fun ShipDetailsDialog(
                             style = MaterialTheme.typography.bodyMedium
                         )
                         
-                        ship.destination.location?.let { location ->
+                        ship.destination.let { location ->
                             LocationInfo(location = location)
                         }
                     }

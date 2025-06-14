@@ -18,7 +18,7 @@ object DatabaseModule {
     @Singleton
     fun provideShipDatabase(
         @ApplicationContext context: Context
-    ): ShipDatabase = ShipDatabase.getDatabase(context)
+    ): ShipDatabase = ShipDatabase.getInstance(context)
     
     @Provides
     fun provideShipDao(database: ShipDatabase): ShipDao = database.shipDao()

@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,10 +20,9 @@ import com.cbmm.shipsimulator.R
 import com.cbmm.shipsimulator.data.model.ShipRoute
 import com.cbmm.shipsimulator.ui.components.LoadingIndicator
 import com.cbmm.shipsimulator.ui.navigation.Screen
+import com.cbmm.shipsimulator.ui.screens.history.components.DateRangeSelector
+import com.cbmm.shipsimulator.ui.screens.history.components.RouteList
 import com.cbmm.shipsimulator.ui.theme.spacing
-import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.MaterialDialogState
-import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -112,7 +112,7 @@ fun HistoryScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(MaterialTheme.shapes.medium)
+                        .clip(shape = MaterialTheme.shapes.medium)
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     if (uiState.isLoading) {
